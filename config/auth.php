@@ -18,6 +18,8 @@ return [
         'passwords' => 'users',
     ],
 
+    'jwt_ttl' => env('JWT_TTL', 60),
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards

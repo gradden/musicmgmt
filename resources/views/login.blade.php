@@ -7,6 +7,7 @@
     <title>Login</title>
 </head>
 <body>
-
+    <h1>Hello world!</h1>
+    <p>This will be a musicmgmt app very soon.. Our developers working hard to complete the frontend!</p>
 </body>
 </html>

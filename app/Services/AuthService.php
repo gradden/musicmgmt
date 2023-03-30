@@ -6,6 +6,7 @@ use App\Exceptions\AuthorizationException;
 use App\Repository\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthService
 {
@@ -19,13 +20,16 @@ class AuthService
     public function auth(array $credentials): array
     {
         if (! $token = auth()->attempt($credentials)) {
-            throw new AuthorizationException('Wrong credentials');
+            throw new AuthorizationException(
+                message: __('errors.wrong_credentials'),
+                code: Response::HTTP_FORBIDDEN
+            );
         }
 
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => config('auth.jwt_ttl') * 60
         ];
     }
 
