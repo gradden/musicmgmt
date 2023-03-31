@@ -120,6 +120,7 @@ class ClubController extends Controller
      *   ),
      *   @OA\Response(response=401, description="Unauthorized"),
      *   @OA\Response(response=404, description="Not found"),
+     *   @OA\Response(response=422, description="Unprocessable entity"),
      *   @OA\Response(response=500, description="Server error"),
      * )
      */

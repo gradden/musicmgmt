@@ -13,7 +13,6 @@ Route::post('auth/logout', [AuthController::class, 'logout']);
 Route::middleware(['api', 'auth:api'])->group(function () {
     Route::get('users/me', [UserController::class, 'getMe']);
 
-    Route::apiResource('concerts', ConcertController::class);
     Route::group(['prefix' => 'clubs'], function() {
         Route::get('search', [ClubController::class, 'searchByName'])->name('clubs.search');
         Route::get('', [ClubController::class, 'index']);
@@ -22,5 +21,13 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         Route::put('{id}', [ClubController::class, 'update']);
         Route::delete('{id}', [ClubController::class, 'destroy']);
     });
-    
+
+    Route::group(['prefix' => 'concerts'], function() {
+        Route::get('search', [ConcertController::class, 'searchByName'])->name('concerts.search');
+        Route::get('', [ConcertController::class, 'index']);
+        Route::post('', [ConcertController::class, 'store']);
+        Route::get('{id}', [ConcertController::class, 'show'])->name('concerts.show');
+        Route::put('{id}', [ConcertController::class, 'update']);
+        Route::delete('{id}', [ConcertController::class, 'destroy']);
+    });
 });

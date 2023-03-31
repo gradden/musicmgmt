@@ -254,6 +254,9 @@
                     "404": {
                         "description": "Not found"
                     },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
                     "500": {
                         "description": "Server error"
                     }
@@ -351,6 +354,210 @@
                 ]
             }
         },
+        "/concerts": {
+            "get": {
+                "tags": [
+                    "Concert"
+                ],
+                "summary": "Show all concerts",
+                "operationId": "740db04adf2f362d632a7ceaa896a1ce",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConcertIndexResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Concert"
+                ],
+                "summary": "Create Concert",
+                "operationId": "7374e194230381b54aeb07e123281737",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConcertRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConcertResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/concerts/{id}": {
+            "get": {
+                "tags": [
+                    "Concert"
+                ],
+                "summary": "Show a concert",
+                "operationId": "50a64f025b2747dfaf54a4486d228b6b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the concert",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConcertResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Concert"
+                ],
+                "summary": "Edit a concert object",
+                "operationId": "a35b92f1efb9eecd6273ede0319e7fc4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the concert",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConcertRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConcertResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Concert"
+                ],
+                "summary": "Delete a concert object",
+                "operationId": "04f0db5d89ca7e9c477731e9a5f064b5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the concert",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/users/me": {
             "get": {
                 "tags": [
@@ -420,6 +627,70 @@
                         "description": "A custom description",
                         "type": "string",
                         "example": "This place is very solid. Might be coming back here idk.."
+                    }
+                },
+                "type": "object"
+            },
+            "ConcertRequest": {
+                "title": "ConcertRequest",
+                "description": "Full Concert object request",
+                "required": [
+                    "eventName",
+                    "clubId",
+                    "createdBy",
+                    "eventStartDate",
+                    "eventEndDate"
+                ],
+                "properties": {
+                    "eventName": {
+                        "description": "Event name",
+                        "type": "string",
+                        "example": "Nightlife Maximal"
+                    },
+                    "clubId": {
+                        "description": "ID of the club",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "createdBy": {
+                        "description": "ID of the event creator (User ID)",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "eventStartDate": {
+                        "description": "Event's starting date",
+                        "type": "string",
+                        "example": "2023-03-01 12:00:00"
+                    },
+                    "eventEndDate": {
+                        "description": "Event's ending date",
+                        "type": "string",
+                        "example": "2023-03-01 01:00:00"
+                    },
+                    "description": {
+                        "description": "A custom description",
+                        "type": "string",
+                        "example": "Example description"
+                    },
+                    "income": {
+                        "description": "Income of the gig",
+                        "type": "integer",
+                        "example": "90000"
+                    },
+                    "facebookUrl": {
+                        "description": "Facebook event URL",
+                        "type": "string",
+                        "example": "https://facebook.com/events/1234"
+                    },
+                    "livesetUrl": {
+                        "description": "Live Set URL",
+                        "type": "string",
+                        "example": "url"
+                    },
+                    "isExpired": {
+                        "description": "Is expired",
+                        "type": "boolean",
+                        "example": "false"
                     }
                 },
                 "type": "object"
@@ -520,6 +791,11 @@
                 "title": "ClubResource",
                 "description": "Full resource of Club object",
                 "properties": {
+                    "id": {
+                        "description": "ID of club",
+                        "type": "integer",
+                        "example": "1"
+                    },
                     "name": {
                         "description": "Club name",
                         "type": "string",
@@ -553,13 +829,93 @@
                 },
                 "type": "object"
             },
+            "ConcertIndexResource": {
+                "title": "ConcertIndexResource",
+                "description": "Collection of Concerts",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ConcertResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ConcertResource": {
+                "title": "ClubResource",
+                "description": "Full resource of Club object",
+                "properties": {
+                    "id": {
+                        "description": "ID of concert",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "eventName": {
+                        "description": "Name of the event",
+                        "type": "string",
+                        "example": "Nightlife Maximal"
+                    },
+                    "club": {
+                        "$ref": "#/components/schemas/ClubResource"
+                    },
+                    "createdBy": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "description": {
+                        "description": "Custom description about the event",
+                        "type": "string",
+                        "example": "This will be good."
+                    },
+                    "eventStartDate": {
+                        "description": "When will the event starting",
+                        "type": "string",
+                        "example": "2023-03-01 12:00:00"
+                    },
+                    "eventEndDate": {
+                        "description": "When will the event ending",
+                        "type": "string",
+                        "example": "2023-03-01 01:00:00"
+                    },
+                    "income": {
+                        "description": "Income of the gig (HUF)",
+                        "type": "integer",
+                        "example": "90000"
+                    },
+                    "facebookEvent": {
+                        "description": "URL of Facebook event",
+                        "type": "string",
+                        "example": "url"
+                    },
+                    "liveSet": {
+                        "description": "URL of the Live Set mix",
+                        "type": "string",
+                        "example": "url"
+                    },
+                    "isExpired": {
+                        "description": "Is this event happened?",
+                        "type": "boolean",
+                        "example": "false"
+                    }
+                },
+                "type": "object"
+            },
             "UserResource": {
                 "title": "UserResource",
                 "description": "User Resource",
                 "properties": {
-                    "accessToken": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
                         "type": "string",
-                        "example": "jwt_token"
+                        "example": "Foo Bar"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "example@asd.com"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "example": "2023-01-01"
                     }
                 },
                 "type": "object"

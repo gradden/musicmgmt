@@ -12,9 +12,24 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *      description="User Resource",
  *      type="object",
  *      @OA\Property(
- *          property="accessToken",
+ *          property="id",
+ *          type="integer",
+ *          example="1",
+ *      ),
+ *      @OA\Property(
+ *          property="name",
  *          type="string",
- *          example="jwt_token",
+ *          example="Foo Bar",
+ *      ),
+ *      @OA\Property(
+ *          property="email",
+ *          type="string",
+ *          example="example@asd.com",
+ *      ),
+ *      @OA\Property(
+ *          property="createdAt",
+ *          type="string",
+ *          example="2023-01-01",
  *      ),
  * )
  */

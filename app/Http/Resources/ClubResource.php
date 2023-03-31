@@ -11,6 +11,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *      description="Full resource of Club object",
  *      type="object",
  *      @OA\Property(
+ *          property="id",
+ *          type="integer",
+ *          description="ID of club",
+ *          example="1",
+ *      ),
+ *      @OA\Property(
  *          property="name",
  *          type="string",
  *          description="Club name",
