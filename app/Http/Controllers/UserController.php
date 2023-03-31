@@ -22,6 +22,6 @@ class UserController extends Controller
      */
     public function getMe()
     {
-        return UserResource::make(auth()->user());
+        return $this->json(UserResource::make(auth()->user()));
     }
 }

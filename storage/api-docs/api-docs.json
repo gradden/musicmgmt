@@ -101,6 +101,204 @@
                 ]
             }
         },
+        "/clubs": {
+            "get": {
+                "tags": [
+                    "Club"
+                ],
+                "summary": "Show all stored clubs",
+                "operationId": "866030e46cf2d577d67746695d081d1c",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClubIndexResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Club"
+                ],
+                "summary": "Store a club object",
+                "operationId": "9413538608c46edac6723799dfd1f707",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClubRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClubResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/clubs/{id}": {
+            "get": {
+                "tags": [
+                    "Club"
+                ],
+                "summary": "Show a club",
+                "operationId": "1ab1622298cc99f53f53e1880ede996e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the club",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClubResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Club"
+                ],
+                "summary": "Edit a club object",
+                "operationId": "a761b9aa9f1f803e99dee42a98ef7f6b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the club",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClubRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClubResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Club"
+                ],
+                "summary": "Delete a club object",
+                "operationId": "7e06b8dd1cae88a342f2c24a9adbc2fc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the club",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/users/me": {
             "get": {
                 "tags": [
@@ -133,6 +331,47 @@
     },
     "components": {
         "schemas": {
+            "ClubRequest": {
+                "title": "ClubRequest",
+                "description": "Full Club object request",
+                "required": [
+                    "name",
+                    "location"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Club name",
+                        "type": "string",
+                        "example": "Liget Budapest"
+                    },
+                    "location": {
+                        "description": "The location of the club",
+                        "type": "string",
+                        "example": "Budapest (Example street)"
+                    },
+                    "facebookUrl": {
+                        "description": "Facebook page of the club",
+                        "type": "string",
+                        "example": "https://facebook.com/club"
+                    },
+                    "instagramTag": {
+                        "description": "Instagram tag",
+                        "type": "string",
+                        "example": "@clubbudapest"
+                    },
+                    "instagramUrl": {
+                        "description": "Instagram url",
+                        "type": "string",
+                        "example": "https://instagram.com/clubbudapest"
+                    },
+                    "description": {
+                        "description": "A custom description",
+                        "type": "string",
+                        "example": "This place is very solid. Might be coming back here idk.."
+                    }
+                },
+                "type": "object"
+            },
             "LoginRequest": {
                 "title": "LoginRequest",
                 "description": "Login credentials",
@@ -211,6 +450,53 @@
                     "expiration": {
                         "type": "integer",
                         "example": "36000"
+                    }
+                },
+                "type": "object"
+            },
+            "ClubIndexResource": {
+                "title": "ClubIndexResource",
+                "description": "Collection of Clubs",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ClubResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ClubResource": {
+                "title": "ClubResource",
+                "description": "Full resource of Club object",
+                "properties": {
+                    "name": {
+                        "description": "Club name",
+                        "type": "string",
+                        "example": "Liget Budapest"
+                    },
+                    "location": {
+                        "description": "The location of the club",
+                        "type": "string",
+                        "example": "Budapest (Example street)"
+                    },
+                    "facebookUrl": {
+                        "description": "Facebook page of the club",
+                        "type": "string",
+                        "example": "https://facebook.com/club"
+                    },
+                    "instagramTag": {
+                        "description": "Instagram tag",
+                        "type": "string",
+                        "example": "@clubbudapest"
+                    },
+                    "instagramUrl": {
+                        "description": "Instagram url",
+                        "type": "string",
+                        "example": "https://instagram.com/clubbudapest"
+                    },
+                    "description": {
+                        "description": "A custom description",
+                        "type": "string",
+                        "example": "This place is very solid. Might be coming back here idk.."
                     }
                 },
                 "type": "object"

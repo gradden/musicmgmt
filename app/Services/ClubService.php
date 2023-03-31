@@ -15,7 +15,7 @@ class ClubService
 
     public function createClub(array $inputData)
     {
-        return $this->clubRepository->updateOrCreate($inputData);
+        return $this->clubRepository->updateOrCreate($inputData, 'name');
     }
 
     public function getAll()
@@ -26,5 +26,16 @@ class ClubService
     public function showBy(string $column, mixed $value)
     {
         return $this->clubRepository->getBy($column, $value);
+    }
+
+    public function edit(int $id, array $updateData) 
+    {
+        $updateData['id'] = $id;
+        return $this->clubRepository->updateOrCreate($updateData, 'id');
+    }
+
+    public function delete(int $id)
+    {
+        $this->clubRepository->delete($id);
     }
 }
