@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Exceptions\AuthorizationException;
+use App\Exceptions\UserExistsException;
 use App\Repository\UserRepository;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +14,8 @@ class AuthService
 {
     private UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+
+    public function __construct(UserRepository $userRepository, CookieService $cookieService)
     {
         $this->userRepository = $userRepository;
     }
@@ -22,14 +25,16 @@ class AuthService
         if (! $token = auth()->attempt($credentials)) {
             throw new AuthorizationException(
                 message: __('errors.wrong_credentials'),
-                code: Response::HTTP_FORBIDDEN
+                code: Response::HTTP_UNAUTHORIZED
             );
         }
+
+        $ttlMinute = config('auth.jwt_ttl') * 60;
 
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => config('auth.jwt_ttl') * 60
+            'expires_in' => Carbon::now()->addSeconds($ttlMinute)->toDateTimeString()
         ];
     }
 
@@ -37,7 +42,10 @@ class AuthService
     {
         if($this->userRepository->isExists($data['email']))
         {
-            throw new Exception('User is exists');
+            throw new UserExistsException(
+                message: __('errors.user_exists'),
+                code: Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
 
         $this->userRepository->create([

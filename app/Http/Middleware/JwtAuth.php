@@ -2,9 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\AuthorizationException;
+use App\Models\User;
 use Closure;
+use Exception;
 use Illuminate\Http\Request;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth as FacadesJWTAuth;
+use PHPOpenSourceSaver\JWTAuth\Token;
 use Symfony\Component\HttpFoundation\Response;
 
 class JwtAuth
@@ -18,13 +22,22 @@ class JwtAuth
     {
         $response = $next($request);
 
-        $token = request()->cookie('access_token');
         $jwt = FacadesJWTAuth::getFacadeRoot();
-
-        if(!$jwt->parseToken($token)){
-            var_dump("can't..");
+        try{
+            $token = new Token(request()->cookie('accessToken'));
+            $decodedToken = $jwt->decode($token);
+            $userId = $decodedToken->get('sub');
+            $user = User::where('id', '=', $userId)->first();
+            if($decodedToken) {
+                auth()->login($user, true);
+            }
+            
+            return $response;
+        } catch (Exception $e) {
+            throw new AuthorizationException(
+                message: $e->getMessage(),
+                code: Response::HTTP_UNAUTHORIZED
+            );
         }
-
-        return $response;
     }
 }

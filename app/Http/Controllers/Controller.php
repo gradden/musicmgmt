@@ -7,6 +7,21 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 
+/**
+ * @OA\Info(
+ *   title="Musicmgmt API", 
+ *   version="1.0",
+ * ),
+ * @OA\Server(
+ *   url="/api",
+ *   description="API Server"
+ * ),
+ * @OA\SecurityScheme(
+ *   securityScheme="bearerAuth",
+ *   type="http",
+ *   scheme="bearer"
+ * )
+ */
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;

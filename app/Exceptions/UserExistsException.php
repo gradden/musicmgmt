@@ -6,7 +6,7 @@ use Exception;
 use Throwable;
 use App\Exceptions\ExceptionTrait;
 
-class NotFoundException extends Exception
+class UserExistsException extends Exception
 {
     use ExceptionTrait;
 

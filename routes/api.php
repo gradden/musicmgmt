@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('auth/login', [UserController::class, 'login']);
 Route::post('auth/register', [UserController::class, 'register']);
 
-Route::middleware(['api', 'auth.jwt'])->group(function () {
+Route::middleware(['api', 'auth:api'])->group(function () {
     Route::get('users/me', [UserController::class, 'getMe']);
 
     Route::prefix('concerts')->group(function () {

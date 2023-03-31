@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'wrong_credentials' => 'Login failed. Please try again!'
+    'wrong_credentials' => 'Login failed. Please try again!',
+    'unauthenticated' => 'Unauthenticated'
 ];
