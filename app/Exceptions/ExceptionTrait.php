@@ -19,7 +19,7 @@ trait ExceptionTrait {
 
         $this->logException($message, $prev->getTraceAsString());
 
-        return $response;
+        return response()->json($response, $statusCode);
     }
 
     private function logException(string $exceptionMessage, string $trace)

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Dotenv\Exception\ValidationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -34,9 +35,17 @@ class Handler extends ExceptionHandler
             if($e instanceof NotFoundHttpException)
             {
                 throw new NotFoundException(
-                    (string)__('exceptions.not_found'),
-                    (int)Response::HTTP_NOT_FOUND,
+                    __('errors.not_found'),
+                    Response::HTTP_NOT_FOUND,
                     $e
+                );
+            }
+
+            if($e instanceof AuthenticationException) 
+            {
+                throw new AuthorizationException(
+                    message: __('errors.unauthenticated'),
+                    code: Response::HTTP_UNAUTHORIZED
                 );
             }
         });

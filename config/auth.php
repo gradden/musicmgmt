@@ -43,7 +43,7 @@ return [
             'provider' => 'users',
         ],
         'web' => [
-            'driver' => 'jwt',
+            'driver' => 'session',
             'provider' => 'users',
         ]
     ],
