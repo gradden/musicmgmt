@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repository\ClubRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ClubService
 {
@@ -37,5 +38,21 @@ class ClubService
     public function delete(int $id)
     {
         $this->clubRepository->delete($id);
+    }
+
+    public function searchByName(array $search)
+    {
+        $result = NULL;
+        $clubQuery = $this->clubRepository->getQueryBuilder();
+        foreach ($search as $column => $value) {
+            $result = $this->clubRepository->searchBy($clubQuery, $column, $value);
+        }
+
+        if ($result === NULL) 
+        {
+            throw new NotFoundHttpException();
+        }
+
+        return $result->get();
     }
 }

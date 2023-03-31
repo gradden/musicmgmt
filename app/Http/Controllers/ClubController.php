@@ -7,6 +7,7 @@ use App\Http\Resources\ClubIndexResource;
 use App\Http\Resources\ClubResource;
 use App\Services\ClubService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ClubController extends Controller
@@ -163,5 +164,42 @@ class ClubController extends Controller
         return $this->noContent();
     }
 
+    /**
+     * @OA\Get(
+     *   tags={"Club"},
+     *   path="/clubs/search",
+     *   summary="Search in clubs object",
+     *   security={ {"bearerAuth": {} }},
+     *   @OA\Parameter(
+     *     name="name",
+     *     in="query",
+     *     description="Name of the club"
+     *   ),
+     *   @OA\Parameter(
+     *     name="location",
+     *     in="query",
+     *     description="Location of the club"
+     *   ),
+     *   @OA\Parameter(
+     *     name="description",
+     *     in="query",
+     *     description="Location of the club"
+     *   ),
+     *   @OA\Response(
+     *     response=200,
+     *     description="OK",
+     *     @OA\JsonContent(ref="#/components/schemas/ClubIndexResource")
+     *   ),
+     *   @OA\Response(response=401, description="Unauthorized"),
+     *   @OA\Response(response=404, description="Not found"),
+     *   @OA\Response(response=500, description="Server error"),
+     * )
+     */
+    public function searchByName(Request $request)
+    {
+        $searchParams = $request->only(['name', 'location', 'description']) ?? '';
+
+        return ClubIndexResource::make($this->clubService->searchByName($searchParams));
+    }
 }
 

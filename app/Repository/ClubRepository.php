@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\Club;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class ClubRepository
@@ -37,5 +38,15 @@ class ClubRepository
     public function delete(int $id): void
     {
         Club::destroy($id);
+    }
+
+    public function searchBy(Builder $query, string $column, string $searchParam) : Builder
+    {
+        return $query->where($column, 'LIKE', '%' . $searchParam . '%', 'AND');
+    }
+
+    public function getQueryBuilder()
+    {
+        return Club::query();
     }
 }

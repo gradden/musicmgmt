@@ -14,6 +14,8 @@ trait ExceptionTrait {
         ];
 
         if (config('app.debug')) {
+            $response['file'] = $prev->getFile();
+            $response['line'] = $prev->getLine();
             $response['trace'] = $prev->getTrace();
         }
 

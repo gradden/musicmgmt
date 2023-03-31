@@ -35,9 +35,9 @@ class Handler extends ExceptionHandler
             if($e instanceof NotFoundHttpException)
             {
                 throw new NotFoundException(
-                    __('errors.not_found'),
-                    Response::HTTP_NOT_FOUND,
-                    $e
+                    message: __('errors.not_found'),
+                    code: Response::HTTP_NOT_FOUND,
+                    e: $e
                 );
             }
 
@@ -45,7 +45,8 @@ class Handler extends ExceptionHandler
             {
                 throw new AuthorizationException(
                     message: __('errors.unauthenticated'),
-                    code: Response::HTTP_UNAUTHORIZED
+                    code: Response::HTTP_UNAUTHORIZED,
+                    e: $e
                 );
             }
         });

@@ -269,7 +269,7 @@
                     "Club"
                 ],
                 "summary": "Delete a club object",
-                "operationId": "7e06b8dd1cae88a342f2c24a9adbc2fc",
+                "operationId": "3db6888aaa8f51e5631d3bf7077d6ea9",
                 "parameters": [
                     {
                         "name": "id",
@@ -281,6 +281,58 @@
                 "responses": {
                     "204": {
                         "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/clubs/search": {
+            "get": {
+                "tags": [
+                    "Club"
+                ],
+                "summary": "Search in clubs object",
+                "operationId": "ca75762944b2b3e61a12e02ab84f47b1",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name of the club"
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Location of the club"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Location of the club"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClubIndexResource"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized"
