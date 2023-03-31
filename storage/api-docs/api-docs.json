@@ -11,42 +11,13 @@
         }
     ],
     "paths": {
-        "/users/me": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get current user",
-                "operationId": "5aa08d59e570c094302e54dcbd45cade",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UserResource"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
         "/auth/login": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Login",
-                "operationId": "2e19250fcb6adcc6dc23cd2dd19489b6",
+                "operationId": "8cb7742ae98d0990acb2907c4e00bf24",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -79,7 +50,7 @@
                     "Auth"
                 ],
                 "summary": "Registration",
-                "operationId": "c0d615b1e4523cab480069cea2c590dd",
+                "operationId": "ed42f392010c301892e640067141676e",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -97,6 +68,66 @@
                         "description": "Unprocessable entity"
                     }
                 }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Log out",
+                "operationId": "0d29c740dc06d77602af8095bf4654cc",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LogoutRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/me": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get current user",
+                "operationId": "5aa08d59e570c094302e54dcbd45cade",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
@@ -119,6 +150,21 @@
                         "description": "Password",
                         "type": "string",
                         "example": "Teszt1234"
+                    }
+                },
+                "type": "object"
+            },
+            "LogoutRequest": {
+                "title": "LogoutRequest",
+                "description": "Logout request",
+                "required": [
+                    "accessToken"
+                ],
+                "properties": {
+                    "accessToken": {
+                        "description": "Token",
+                        "type": "string",
+                        "example": "token"
                     }
                 },
                 "type": "object"
