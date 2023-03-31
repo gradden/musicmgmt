@@ -88,7 +88,7 @@ class AuthController extends Controller
     public function logout(LogoutRequest $request)
     {
         $data = $request->only(['accessToken']);
-        $this->authService->logout($data);
+        auth()->logout(true);
 
         return $this->ok();
     }

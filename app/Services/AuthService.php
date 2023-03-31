@@ -55,9 +55,4 @@ class AuthService
             'password' => Hash::make($data['password'])
         ]);
     }
-
-    public function logout(array $data): void
-    {
-        auth()->logout(true);
-    }
 }
