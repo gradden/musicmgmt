@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @OA\Info(
@@ -28,11 +29,16 @@ class Controller extends BaseController
 
     public function ok(): JsonResponse
     {
-        return response()->json(['success' => 'ok'], 200);
+        return response()->json(['success' => 'ok'], Response::HTTP_OK);
     }
 
-    public function json(mixed $data, int $statusCode = 200): JsonResponse
+    public function json(mixed $data, int $statusCode = Response::HTTP_OK): JsonResponse
     {
         return response()->json($data, $statusCode);
+    }
+
+    public function noContent(): JsonResponse
+    {
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
