@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Hash;
+use PHPOpenSourceSaver\JWTAuth\JWTAuth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthService
@@ -34,7 +35,7 @@ class AuthService
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => Carbon::now()->addSeconds($ttlMinute)->toDateTimeString()
+            'expires_in' => Carbon::now('Europe/Budapest')->addSeconds($ttlMinute)->toDateTimeString()
         ];
     }
 
