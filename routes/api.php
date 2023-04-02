@@ -24,6 +24,7 @@ Route::middleware(['api', 'auth:api'])->group(function () {
 
     Route::group(['prefix' => 'concerts'], function() {
         Route::get('search', [ConcertController::class, 'searchByName'])->name('concerts.search');
+        Route::get('user/{userId}', [ConcertController::class, 'indexByUserId'])->name('concerts.indexByUserId');
         Route::get('', [ConcertController::class, 'index']);
         Route::post('', [ConcertController::class, 'store']);
         Route::get('{id}', [ConcertController::class, 'show'])->name('concerts.show');

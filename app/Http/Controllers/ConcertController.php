@@ -6,7 +6,7 @@ use App\Http\Requests\ConcertRequest;
 use App\Http\Resources\ConcertIndexResource;
 use App\Http\Resources\ConcertResource;
 use App\Services\ConcertService;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ConcertController extends Controller
@@ -171,5 +171,43 @@ class ConcertController extends Controller
     {
         $this->concertService->delete($id);
         return $this->noContent();
+    }
+
+    /**
+     * @OA\Get(
+     *   tags={"Concert"},
+     *   path="/concerts/user/{userId}",
+     *   summary="Get concert objects by userId",
+     *   security={ {"bearerAuth": {} }},
+     *   @OA\Parameter(
+     *     name="userId",
+     *     in="path",
+     *     description="ID of the user",
+     *     required=true,
+     *   ),
+     *   @OA\Parameter(
+     *     name="eventType",
+     *     in="query",
+     *     description="Available values: 'upcoming|past|all'. Defaultly is 'all'",
+     *     @OA\Items(
+     *             type="string",
+     *             enum={"upcoming", "past", "all"},
+     *             default="all",
+     *     ),
+     *   ),
+     *   @OA\Response(
+     *     response=200,
+     *     description="OK",
+     *     @OA\JsonContent(ref="#/components/schemas/ConcertIndexResource")
+     *   ),
+     *   @OA\Response(response=401, description="Unauthorized"),
+     *   @OA\Response(response=404, description="Not found"),
+     *   @OA\Response(response=500, description="Server error"),
+     * )
+     */
+    public function indexByUserId(int $userId, Request $request)
+    {
+        $data['eventType'] = $request->get('eventType') ?? null;
+        return $this->json(ConcertIndexResource::make($this->concertService->indexByUserId($userId, $data)));
     }
 }

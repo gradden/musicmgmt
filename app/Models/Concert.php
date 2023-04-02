@@ -13,6 +13,9 @@ class Concert extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
+    public const UPCOMING_EVENTS = 'upcoming';
+    public const PAST_EVENTS = 'past';
+
     protected $fillable = [
         'event_name',
         'club_id',

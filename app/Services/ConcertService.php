@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\ConcertAlreadyExistsException;
+use App\Models\Concert;
 use App\Repository\ConcertRepository;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,6 +41,20 @@ class ConcertService
     public function delete(int $id)
     {
         $this->concertRepository->destroy($id);
+    }
+
+    public function indexByUserId(int $userId, array $data)
+    {
+        $isExpired = null;
+        if ($data['eventType'] === Concert::PAST_EVENTS)
+        {
+            $isExpired = true;
+        } elseif ($data['eventType'] === Concert::UPCOMING_EVENTS)
+        {
+            $isExpired = false;
+        }
+        
+        return $this->concertRepository->getWhereUserId($userId, $isExpired);
     }
 
     private function checkDate(string $startDate, string $endDate)

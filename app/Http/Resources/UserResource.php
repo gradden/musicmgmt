@@ -41,7 +41,9 @@ class UserResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'email' => $this->resource->email,
-            'createdAt' => Carbon::createFromDate($this->resource->created_at)->toDateString()
+            'createdAt' => Carbon::createFromDate($this->resource->created_at)->toDateString(),
+            'upcomingConcerts' => $this->resource->concertCount(),
+            'pastConcerts' => $this->resource->concertExpiredCount()
         ];
     }
 }

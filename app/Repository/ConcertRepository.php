@@ -8,7 +8,7 @@ class ConcertRepository
 {
     public function getAll() 
     {
-        return Concert::all();
+        return Concert::where('added_by_user_id', '=', auth()->id())->get();
     }
 
     public function create(array $data)
@@ -29,12 +29,14 @@ class ConcertRepository
 
     public function getBy(string $column, mixed $value)
     {
-        return Concert::where($column, '=', $value)->firstOrFail();
+        return Concert::where('added_by_user_id', '=', auth()->id())
+            ->where($column, '=', $value)
+            ->firstOrFail();
     }
 
     public function update(int $id, array $data)
     {
-        $concert = Concert::where('id', '=', $id);
+        $concert = Concert::where('added_by_user_id', '=', auth()->id())->where('id', '=', $id);
         $concert->update([
             'event_name' => $data['eventName'],
             'club_id' => $data['clubId'],
@@ -55,16 +57,29 @@ class ConcertRepository
         Concert::destroy($id);
     }
 
+    public function getWhereUserId(int $userId, bool $isExpired = null)
+    {
+        $concerts = Concert::where('added_by_user_id', '=', $userId);
+        if ($isExpired !== null) 
+        {
+            $concerts->where('is_expired', '=', $isExpired);
+        }
+
+        return $concerts->get();
+    }
+
     public function haveConcertsInDateRange(string $startDate, string $endDate): bool
     {
-        return Concert::where('event_start_date', '<=', $startDate)
+        return Concert::where('added_by_user_id', '=', auth()->id())
+            ->where('event_start_date', '<=', $startDate)
             ->where('event_end_date', '>', $startDate)
             ->exists();
     }
 
     public function haveConcertsBefore(string $startDate, string $endDate)
     {
-        return Concert::where('event_start_date', '<', $endDate)
+        return Concert::where('added_by_user_id', '=', auth()->id())
+            ->where('event_start_date', '<', $endDate)
             ->where('event_start_date', '>', $startDate)
             ->exists();
     }
