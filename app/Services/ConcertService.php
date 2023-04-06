@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\ConcertAlreadyExistsException;
 use App\Models\Concert;
 use App\Repository\ConcertRepository;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 
 class ConcertService
@@ -55,6 +56,15 @@ class ConcertService
         }
         
         return $this->concertRepository->getWhereUserId($userId, $isExpired);
+    }
+
+    public function checkOutdatedConcerts(): void
+    {
+        $this->concertRepository
+            ->getOutdatedConcerts(Carbon::now()->toDateTimeString())
+            ->update([
+                'is_expired' => true
+            ]);
     }
 
     private function checkDate(string $startDate, string $endDate)

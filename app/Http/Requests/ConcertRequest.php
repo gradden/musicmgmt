@@ -69,7 +69,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *          type="boolean",
  *          description="Is expired",
  *          example="false",
- *      ),
+ *      )
  * )
  */
 class ConcertRequest extends FormRequest
@@ -91,7 +91,7 @@ class ConcertRequest extends FormRequest
             'income' => 'nullable|integer',
             'facebookUrl' => 'nullable|string',
             'livesetUrl' => 'nullable|string',
-            'isExpired' => 'required|boolean'
+            'isExpired' => 'required|boolean',
         ];
     }
 }

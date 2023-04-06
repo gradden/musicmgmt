@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\Concert;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ConcertRepository
 {
@@ -82,5 +83,10 @@ class ConcertRepository
             ->where('event_start_date', '<', $endDate)
             ->where('event_start_date', '>', $startDate)
             ->exists();
+    }
+
+    public function getOutdatedConcerts(string $date): Builder
+    {
+        return Concert::where('event_end_date', '<', $date);
     }
 }

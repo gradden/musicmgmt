@@ -739,6 +739,11 @@
                         "description": "Is expired",
                         "type": "boolean",
                         "example": "false"
+                    },
+                    "photos": {
+                        "description": "Image(s) about the concert",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
