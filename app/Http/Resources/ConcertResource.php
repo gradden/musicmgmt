@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @OA\Schema(
- *      title="ClubResource",
+ *      title="ConcertResource",
  *      description="Full resource of Club object",
  *      type="object",
  *      @OA\Property(
@@ -29,12 +29,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *          ref="#/components/schemas/ClubResource"
  *      ),
  *      @OA\Property(
- *          property="createdBy",
- *          type="object",
- *          description="The user who created this event",
- *          ref="#/components/schemas/UserResource"
- *      ),
- *      @OA\Property(
  *          property="description",
  *          type="string",
  *          description="Custom description about the event",
@@ -51,12 +45,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *          type="string",
  *          description="When will the event ending",
  *          example="2023-03-01 01:00:00",
- *      ),
- *      @OA\Property(
- *          property="income",
- *          type="integer",
- *          description="Income of the gig (HUF)",
- *          example="90000",
  *      ),
  *      @OA\Property(
  *          property="facebookEvent",
@@ -86,11 +74,9 @@ class ConcertResource extends JsonResource
             'id' => $this->resource->id,
             'eventName' => $this->resource->event_name,
             'club' => $this->resource->club,
-            'createdBy' => $this->resource->author,
             'description' => $this->resource->description,
             'eventStartDate' => $this->resource->event_start_date,
             'eventEndDate' => $this->resource->event_end_date,
-            'income' => $this->resource->income,
             'facebookEvent' => $this->resource->facebook_event_url,
             'liveSet' => $this->resource->liveset_url,
             'isExpired' => $this->resource->is_expired

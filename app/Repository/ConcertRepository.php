@@ -9,7 +9,7 @@ class ConcertRepository
 {
     public function getAll() 
     {
-        return Concert::where('added_by_user_id', '=', auth()->id())->get();
+        return $this->loadAuthBuilder()->orderBy('event_start_date', 'DESC')->get();
     }
 
     public function create(array $data)
@@ -30,20 +30,20 @@ class ConcertRepository
 
     public function getBy(string $column, mixed $value)
     {
-        return Concert::where('added_by_user_id', '=', auth()->id())
+        return $this->loadAuthBuilder()
             ->where($column, '=', $value)
             ->firstOrFail();
     }
 
     public function find(int $concertId)
     {
-        return Concert::where('added_by_user_id', '=', auth()->id())
+        return $this->loadAuthBuilder()
             ->findOrFail($concertId);
     }
 
     public function update(int $id, array $data)
     {
-        $concert = Concert::where('added_by_user_id', '=', auth()->id())->where('id', '=', $id);
+        $concert = $this->loadAuthBuilder()->where('id', '=', $id);
         $concert->update([
             'event_name' => $data['eventName'],
             'club_id' => $data['clubId'],
@@ -77,7 +77,7 @@ class ConcertRepository
 
     public function haveConcertsInDateRange(string $startDate, string $endDate): bool
     {
-        return Concert::where('added_by_user_id', '=', auth()->id())
+        return $this->loadAuthBuilder()
             ->where('event_start_date', '<=', $startDate)
             ->where('event_end_date', '>', $startDate)
             ->exists();
@@ -85,7 +85,7 @@ class ConcertRepository
 
     public function haveConcertsBefore(string $startDate, string $endDate)
     {
-        return Concert::where('added_by_user_id', '=', auth()->id())
+        return $this->loadAuthBuilder()
             ->where('event_start_date', '<', $endDate)
             ->where('event_start_date', '>', $startDate)
             ->exists();
@@ -94,5 +94,19 @@ class ConcertRepository
     public function getOutdatedConcerts(string $date): Builder
     {
         return Concert::where('event_end_date', '<', $date);
+    }
+
+    public function search(string $input)
+    {
+        return $this->loadAuthBuilder()
+            ->where(function ($query) use ($input) {
+                $query->where('event_name', 'LIKE', '%' . $input . '%')
+                    ->orWhere('description', 'LIKE', '%' . $input . '%');
+            })->get();
+    }
+
+    private function loadAuthBuilder(): Builder
+    {
+        return Concert::where('added_by_user_id', '=', auth()->id());
     }
 }

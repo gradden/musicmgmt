@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\ConcertController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\GlobalSearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,7 @@ Route::post('auth/logout', [AuthController::class, 'logout']);
 Route::middleware(['api', 'auth:api'])->group(function () {
     Route::get('users/me', [UserController::class, 'getMe']);
     Route::get('image/{classType}/{uuid}', [FileController::class, 'get']);
+    Route::get('global-search', [GlobalSearchController::class, 'search']);
 
     Route::group(['prefix' => 'clubs'], function() {
         Route::get('search', [ClubController::class, 'searchByName'])->name('clubs.search');

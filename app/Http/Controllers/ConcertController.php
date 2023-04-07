@@ -91,7 +91,7 @@ class ConcertController extends Controller
      *   @OA\Response(
      *     response=200,
      *     description="OK",
-     *     @OA\JsonContent(ref="#/components/schemas/ConcertResource")
+     *     @OA\JsonContent(ref="#/components/schemas/ConcertDetailResource")
      *   ),
      *   @OA\Response(response=401, description="Unauthorized"),
      *   @OA\Response(response=404, description="Not found"),

@@ -24,4 +24,11 @@ class UserRepository
     {
         return User::where('email', '=', $email)->exists();
     }
+
+    public function search(string $input)
+    {
+        return User::where('name', 'LIKE', '%' . $input . '%')
+            ->orWhere('email', 'LIKE', '%' . $input . '%')
+            ->get();
+    }
 }

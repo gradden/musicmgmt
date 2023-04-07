@@ -49,4 +49,12 @@ class ClubRepository
     {
         return Club::query();
     }
+
+    public function search(string $input)
+    {
+        return Club::where('name', 'LIKE', '%' . $input . '%')
+            ->orWhere('location', 'LIKE', '%' . $input . '%')
+            ->orWhere('description', 'LIKE', '%' . $input . '%')
+            ->get();
+    }
 }

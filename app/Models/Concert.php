@@ -13,7 +13,6 @@ class Concert extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-    use SoftDeletes;
 
     public const UPCOMING_EVENTS = 'upcoming';
     public const PAST_EVENTS = 'past';

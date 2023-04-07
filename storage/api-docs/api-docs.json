@@ -449,7 +449,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ConcertResource"
+                                    "$ref": "#/components/schemas/ConcertDetailResource"
                                 }
                             }
                         }
@@ -606,6 +606,49 @@
                 ]
             }
         },
+        "/global-search": {
+            "get": {
+                "tags": [
+                    "GlobalSearch"
+                ],
+                "summary": "Search everywhere",
+                "operationId": "b755017335a7ea026daf77dbd5645dac",
+                "parameters": [
+                    {
+                        "name": "input",
+                        "in": "query",
+                        "description": "Search parameter",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GlobalSearchResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/users/me": {
             "get": {
                 "tags": [
@@ -739,11 +782,6 @@
                         "description": "Is expired",
                         "type": "boolean",
                         "example": "false"
-                    },
-                    "photos": {
-                        "description": "Image(s) about the concert",
-                        "type": "string",
-                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -882,18 +920,8 @@
                 },
                 "type": "object"
             },
-            "ConcertIndexResource": {
-                "title": "ConcertIndexResource",
-                "description": "Collection of Concerts",
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/ConcertResource"
-                    }
-                },
-                "type": "object"
-            },
-            "ConcertResource": {
-                "title": "ClubResource",
+            "ConcertDetailResource": {
+                "title": "ConcertDetailResource",
                 "description": "Full resource of Club object",
                 "properties": {
                     "id": {
@@ -946,6 +974,107 @@
                         "description": "Is this event happened?",
                         "type": "boolean",
                         "example": "false"
+                    },
+                    "photos": {
+                        "$ref": "#/components/schemas/ImageResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ConcertIndexResource": {
+                "title": "ConcertIndexResource",
+                "description": "Collection of Concerts",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ConcertResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ConcertResource": {
+                "title": "ConcertResource",
+                "description": "Full resource of Club object",
+                "properties": {
+                    "id": {
+                        "description": "ID of concert",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "eventName": {
+                        "description": "Name of the event",
+                        "type": "string",
+                        "example": "Nightlife Maximal"
+                    },
+                    "club": {
+                        "$ref": "#/components/schemas/ClubResource"
+                    },
+                    "description": {
+                        "description": "Custom description about the event",
+                        "type": "string",
+                        "example": "This will be good."
+                    },
+                    "eventStartDate": {
+                        "description": "When will the event starting",
+                        "type": "string",
+                        "example": "2023-03-01 12:00:00"
+                    },
+                    "eventEndDate": {
+                        "description": "When will the event ending",
+                        "type": "string",
+                        "example": "2023-03-01 01:00:00"
+                    },
+                    "facebookEvent": {
+                        "description": "URL of Facebook event",
+                        "type": "string",
+                        "example": "url"
+                    },
+                    "liveSet": {
+                        "description": "URL of the Live Set mix",
+                        "type": "string",
+                        "example": "url"
+                    },
+                    "isExpired": {
+                        "description": "Is this event happened?",
+                        "type": "boolean",
+                        "example": "false"
+                    }
+                },
+                "type": "object"
+            },
+            "GlobalSearchResource": {
+                "title": "GlobalSearchResource",
+                "description": "Global search",
+                "properties": {
+                    "clubs": {
+                        "$ref": "#/components/schemas/ClubResource"
+                    },
+                    "concerts": {
+                        "$ref": "#/components/schemas/ConcertResource"
+                    },
+                    "users": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "images": {
+                        "$ref": "#/components/schemas/ImageResource"
+                    }
+                },
+                "type": "object"
+            },
+            "ImageResource": {
+                "title": "ImageResource",
+                "description": "Image Resource",
+                "properties": {
+                    "fileName": {
+                        "type": "string",
+                        "example": "example_image_title.jpg"
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://example.com/image"
+                    },
+                    "uuid": {
+                        "type": "string",
+                        "example": "5e2eca3b-c3a4-4b5d-aaba-f00b034126be"
                     }
                 },
                 "type": "object"
