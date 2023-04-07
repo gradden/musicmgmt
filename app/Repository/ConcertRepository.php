@@ -61,7 +61,7 @@ class ConcertRepository
 
     public function destroy(int $id)
     {
-        Concert::destroy($id);
+        $this->loadAuthBuilder()->where('id', '=', $id)->delete($id);
     }
 
     public function getWhereUserId(int $userId, bool $isExpired = null)
