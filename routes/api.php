@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\ConcertController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,7 @@ Route::post('auth/logout', [AuthController::class, 'logout']);
 
 Route::middleware(['api', 'auth:api'])->group(function () {
     Route::get('users/me', [UserController::class, 'getMe']);
+    Route::get('image/{classType}/{uuid}', [FileController::class, 'get']);
 
     Route::group(['prefix' => 'clubs'], function() {
         Route::get('search', [ClubController::class, 'searchByName'])->name('clubs.search');
@@ -27,6 +29,8 @@ Route::middleware(['api', 'auth:api'])->group(function () {
         Route::get('user/{userId}', [ConcertController::class, 'indexByUserId'])->name('concerts.indexByUserId');
         Route::get('', [ConcertController::class, 'index']);
         Route::post('', [ConcertController::class, 'store']);
+        Route::post('{id}/photos', [FileController::class, 'uploadPhotos']);
+        Route::delete('photos/{uuid}', [FileController::class, 'deletePhoto']);
         Route::get('{id}', [ConcertController::class, 'show'])->name('concerts.show');
         Route::put('{id}', [ConcertController::class, 'update']);
         Route::delete('{id}', [ConcertController::class, 'destroy']);

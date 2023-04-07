@@ -1,12 +1,15 @@
 <?php
 
+use App\Generator\ConcertPathGenerator;
+use App\Models\Concert;
+
 return [
 
     /*
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => env('MEDIA_DISK', 'media'),
+    'disk_name' => env('MEDIA_DISK', 'public'),
 
     /*
      * The maximum file size of an item in bytes.
@@ -69,7 +72,7 @@ return [
      * Here you can specify which path generator should be used for the given class.
      */
     'custom_path_generators' => [
-        // Model::class => PathGenerator::class
+        Concert::class => ConcertPathGenerator::class
         // or
         // 'model_morph_alias' => PathGenerator::class
     ],

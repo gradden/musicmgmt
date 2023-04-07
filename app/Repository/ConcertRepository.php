@@ -35,6 +35,12 @@ class ConcertRepository
             ->firstOrFail();
     }
 
+    public function find(int $concertId)
+    {
+        return Concert::where('added_by_user_id', '=', auth()->id())
+            ->findOrFail($concertId);
+    }
+
     public function update(int $id, array $data)
     {
         $concert = Concert::where('added_by_user_id', '=', auth()->id())->where('id', '=', $id);

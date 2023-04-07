@@ -91,7 +91,7 @@ class ConcertRequest extends FormRequest
             'income' => 'nullable|integer',
             'facebookUrl' => 'nullable|string',
             'livesetUrl' => 'nullable|string',
-            'isExpired' => 'required|boolean',
+            'isExpired' => 'required|boolean'
         ];
     }
 }

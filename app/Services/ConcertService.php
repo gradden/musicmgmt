@@ -6,7 +6,10 @@ use App\Exceptions\ConcertAlreadyExistsException;
 use App\Models\Concert;
 use App\Repository\ConcertRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ConcertService
 {
@@ -65,6 +68,36 @@ class ConcertService
             ->update([
                 'is_expired' => true
             ]);
+    }
+
+    public function uploadPhotos(array $photos, int $id): void
+    {
+        $concert = $this->concertRepository->find($id);
+        foreach ($photos as $photo)
+        {
+            $filename = Str::slug($concert->event_name) . '_' . 
+                $concert->id . '_' . 
+                Carbon::now()->format('Ymdhis') . '_' . 
+                Str::random(8);
+            
+            $filename .= '.' . $photo->extension();
+
+            $concert
+                ->addMedia($photo->getPathname())
+                ->usingFileName($filename)
+                ->toMediaCollection();
+        }
+    }
+
+    public function deletePhoto(string $uuid): void
+    {
+        $file = Media::where('uuid', '=', $uuid)->firstOrFail();
+        $this->concertRepository->find($file->model_id);
+        $delete = Media::where('uuid', '=', $uuid)->delete();
+        if ($delete)
+        {
+            File::delete(storage_path('/app/' . $file->disk . '/concerts/' . $file->model_id . '/' . $file->file_name));
+        }
     }
 
     private function checkDate(string $startDate, string $endDate)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConcertRequest;
+use App\Http\Resources\ConcertDetailResource;
 use App\Http\Resources\ConcertIndexResource;
 use App\Http\Resources\ConcertResource;
 use App\Services\ConcertService;
@@ -99,7 +100,7 @@ class ConcertController extends Controller
      */
     public function show(int $id)
     {
-        return $this->json(ConcertResource::make($this->concertService->show($id)));
+        return $this->json(ConcertDetailResource::make($this->concertService->show($id)));
     }
 
     /**
