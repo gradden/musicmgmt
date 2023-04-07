@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -61,5 +62,20 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function concerts(): HasMany
+    {
+        return $this->hasMany(Concert::class, 'added_by_user_id', 'id');
+    }
+
+    public function concertExpiredCount(): int
+    {
+        return $this->concerts()->where('is_expired', '=', true)->count();
+    }
+
+    public function concertCount(): int
+    {
+        return $this->concerts()->where('is_expired', '=', false)->count();
     }
 }
