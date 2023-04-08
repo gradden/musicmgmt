@@ -25,6 +25,11 @@ class UserRepository
         return User::where('email', '=', $email)->exists();
     }
 
+    public function firstBy(string $column, mixed $value)
+    {
+        return User::where($column, '=', $value)->first();
+    }
+
     public function search(string $input)
     {
         return User::where('name', 'LIKE', '%' . $input . '%')

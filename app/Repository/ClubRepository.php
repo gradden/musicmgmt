@@ -17,10 +17,10 @@ class ClubRepository
             [
                 'name' => $data['name'],
                 'location' => $data['location'],
-                'facebook_url' => $data['facebookUrl'],
-                'instagram_url' => $data['instagramUrl'],
-                'instagram_tag' => $data['instagramTag'],
-                'description' => $data['description']
+                'facebook_url' => $data['facebookUrl'] ?? null,
+                'instagram_url' => $data['instagramUrl'] ?? null,
+                'instagram_tag' => $data['instagramTag'] ?? null,
+                'description' => $data['description'] ?? null
             ]
         );
     }
