@@ -43,7 +43,7 @@ class InitOldConcerts extends Command
             }
         }
         
-        $defaultEmail = config('app.default_user_email_for_import');
+        $defaultEmail = config('app.default_user_email_for_import') ?? '';
         if (!$this->userRepository->isExists($defaultEmail)) 
         {
             throw new Exception(__('errors.import_fail'), Response::HTTP_UNPROCESSABLE_ENTITY);
