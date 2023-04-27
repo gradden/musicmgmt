@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FileService
@@ -26,7 +27,7 @@ class FileService
         $file = File::get($path);
         $type = File::mimeType($path);
 
-        $response = response()->make($file, 200);
+        $response = response()->make($file, Response::HTTP_OK);
         $response->header("Content-Type", $type);
 
         return $response;

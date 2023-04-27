@@ -29,7 +29,7 @@ class AuthService
                 code: Response::HTTP_UNAUTHORIZED
             );
         }
-
+        
         $ttlMinute = config('auth.jwt_ttl') * 60;
 
         return [
