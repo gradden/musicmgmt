@@ -25,3 +25,4 @@ Homestead.json
 dev-docker/Dockerfile
 app/.DS_Store
 public/api-docs
+.DS_Store
