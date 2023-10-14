@@ -7,6 +7,7 @@ use App\Models\User;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth as FacadesJWTAuth;
 use PHPOpenSourceSaver\JWTAuth\Token;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,13 +32,10 @@ class JwtAuth
             if($decodedToken) {
                 auth()->login($user, true);
             }
-            
+
             return $response;
         } catch (Exception $e) {
-            throw new AuthorizationException(
-                message: $e->getMessage(),
-                code: Response::HTTP_UNAUTHORIZED
-            );
+            throw new AuthorizationException(__('errors.unauthenticated'), Response::HTTP_UNAUTHORIZED);
         }
     }
 }

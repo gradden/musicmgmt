@@ -1,5 +1,10 @@
 <?php
 
+use App\Livewire\Clubs;
+use App\Livewire\Concerts;
+use App\Livewire\Dashboard;
+use App\Livewire\Login;
+use App\Livewire\Profile;
 use Illuminate\Support\Facades\Route;
 
 use function Termwind\style;
@@ -15,10 +20,15 @@ use function Termwind\style;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware(\App\Http\Middleware\RedirectIfAuthenticated::class)->group(function() {
+    Route::get('login', Login::class)->name('login');
 });
 
-Route::get('login', function() {
-    return view('login');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('', Dashboard::class)->name('home');
+    Route::get('profile', Profile::class)->name('profile');
+    Route::get('concerts', Concerts::class)->name('concerts');
+    Route::get('concerts/{id}', Concerts::class)->name('concerts.show');
+    Route::get('clubs', Clubs::class)->name('clubs');
+    Route::get('clubs/{id}', [Clubs::class, 'show'])->name('clubs.show');
 });

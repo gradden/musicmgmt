@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use DatePeriod;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -38,5 +41,26 @@ class Concert extends Model implements HasMedia
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'added_by_user_id', 'id');
+    }
+
+    public function getDateAttribute(): string
+    {
+        return Carbon::parse($this->event_start_date)->toDateString();
+    }
+
+    public function getSetTimeAttribute(): string
+    {
+        $start = Carbon::parse($this->event_start_date)->toTimeString('minute');
+        $end = Carbon::parse($this->event_end_date)->toTimeString('minute');
+
+        return $start . ' - ' . $end;
+    }
+
+    public function getSetTimeDurationAttribute(): string
+    {
+        $start = Carbon::parse($this->event_start_date);
+        $end = Carbon::parse($this->event_end_date);
+
+        return $start->diff($end)->format('%Hh %im');
     }
 }

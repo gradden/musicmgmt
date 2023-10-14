@@ -8,13 +8,16 @@ use App\Http\Controllers\GlobalSearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('auth/login', [AuthController::class, 'login']);
+Route::post('auth/login', [AuthController::class, 'login'])->name('api.login');
 Route::post('auth/register', [AuthController::class, 'register']);
 Route::post('auth/logout', [AuthController::class, 'logout']);
 
+Route::get('image/{classType}/{uuid}', [FileController::class, 'get'])
+    ->middleware('auth')
+    ->name('api.image');
+
 Route::middleware(['api', 'auth:api'])->group(function () {
     Route::get('users/me', [UserController::class, 'getMe']);
-    Route::get('image/{classType}/{uuid}', [FileController::class, 'get']);
     Route::get('global-search', [GlobalSearchController::class, 'search']);
 
     Route::group(['prefix' => 'clubs'], function() {

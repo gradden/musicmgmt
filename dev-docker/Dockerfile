@@ -7,6 +7,14 @@ RUN echo display_startup_errors = 0 >> /opt/docker/etc/php/php.ini
 COPY ./docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
+RUN apt-get install -y curl \
+  && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
+  && apt-get install -y nodejs \
+  && curl -L https://www.npmjs.com/install.sh | sh
+
+# Add Yarn
+RUN npm install -g yarn
+
 COPY ../ /app
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 8080 5173

@@ -21,6 +21,9 @@ class AuthService
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function auth(array $credentials): array
     {
         if (! $token = auth()->attempt($credentials)) {

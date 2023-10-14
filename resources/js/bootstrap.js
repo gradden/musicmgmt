@@ -5,6 +5,7 @@
  */
 
 import axios from 'axios';
+import '../../vendor/wire-elements/modal/resources/js/modal.js';
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

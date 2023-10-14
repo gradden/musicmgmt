@@ -28,10 +28,6 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
-        });
-
-        $this->renderable(function (Throwable $e) {
             if($e instanceof NotFoundHttpException)
             {
                 throw new NotFoundException(
@@ -41,7 +37,7 @@ class Handler extends ExceptionHandler
                 );
             }
 
-            if($e instanceof AuthenticationException) 
+            if($e instanceof AuthenticationException)
             {
                 throw new AuthorizationException(
                     message: __('errors.unauthenticated'),
@@ -49,6 +45,10 @@ class Handler extends ExceptionHandler
                     e: $e
                 );
             }
+        });
+
+        $this->renderable(function (Throwable $e) {
+
         });
     }
 }
