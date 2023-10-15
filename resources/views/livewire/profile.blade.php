@@ -1,6 +1,6 @@
 <div>
     <div class="relative mx-auto px-4 dark:text-white text-black rounded-md dark:bg-gray-800 bg-gray-200">
-        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+        <div class="h-screen py-8 px-4 mx-auto max-w-2xl lg:py-16">
             <form wire:submit.prevent="updateProfile">
                 <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">PROF PIC UPLOADER HERE</h2>
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -86,6 +86,14 @@
                                placeholder="{{ __('web.profile_page.password_confirm') }}"
                                wire:model="passwordConfirm"
                                >
+                    </div>
+                    <div class="w-full">
+                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('web.profile_page.select_language') }}</label>
+                        <select wire:model="language" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            @foreach (array_flip(config('app.languages')) as $language)
+                                <option @if(auth()->user()->locale === $language) selected @endif value="{{ $language }}"> {{ config('app.languages.' . $language) }} </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <button type="submit" class="mt-8 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">

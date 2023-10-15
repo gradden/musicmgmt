@@ -2,7 +2,7 @@
     <ul class="inline-flex -space-x-px text-base h-10">
         <li>
             @if($paginator->onFirstPage())
-                <span class="flex items-center justify-center px-4 h-10 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <span class="flex items-center justify-center px-4 h-10 ml-0 leading-tight text-gray-300 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 cursor-default">
                     {{ __('web.previous') }}
                 </span>
             @else
@@ -27,7 +27,7 @@
         @endfor
 
         @if(!$paginator->hasMorePages())
-            <span class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <span class="flex items-center justify-center px-4 h-10 leading-tight text-gray-300 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 cursor-default">
                 {{ __('web.next') }}
             </span>
         @else
