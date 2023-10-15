@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Exceptions\AuthorizationException;
+use App\Exceptions\EmailVerificationException;
 use App\Exceptions\UserExistsException;
+use App\Models\User;
 use App\Repository\UserRepository;
 use Carbon\Carbon;
 use Exception;
@@ -23,16 +25,33 @@ class AuthService
 
     /**
      * @throws AuthorizationException
+     * @throws EmailVerificationException
      */
     public function auth(array $credentials): array
     {
-        if (! $token = auth()->attempt($credentials)) {
+        $user = User::query()->where(['email' => $credentials['email']])->first();
+
+        if (empty($user) || !auth()->validate($credentials)) {
             throw new AuthorizationException(
                 message: __('errors.wrong_credentials'),
                 code: Response::HTTP_UNAUTHORIZED
             );
         }
-        
+
+        if (empty($user->email_verified_at)) {
+            throw new EmailVerificationException(
+                message: __('errors.must_verify_email'),
+                code: Response::HTTP_UNAUTHORIZED
+            );
+        }
+
+        if (!$token = auth()->attempt($credentials)) {
+            throw new AuthorizationException(
+                message: __('errors.wrong_credentials'),
+                code: Response::HTTP_UNAUTHORIZED
+            );
+        }
+
         $ttlMinute = config('auth.jwt_ttl') * 60;
 
         return [
@@ -44,8 +63,7 @@ class AuthService
 
     public function register(array $data): void
     {
-        if($this->userRepository->isExists($data['email']))
-        {
+        if ($this->userRepository->isExists($data['email'])) {
             throw new UserExistsException(
                 message: __('errors.user_exists'),
                 code: Response::HTTP_UNPROCESSABLE_ENTITY

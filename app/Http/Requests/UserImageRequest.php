@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\File;
 
-class ConcertPhotoRequest extends FormRequest
+class UserImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,13 +17,13 @@ class ConcertPhotoRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'photos' => ['required', 'array'],
-            'photos.*' => ['mimes:jpg,jpeg,bmp,png', 'dimensions:min_width=820,min_height=360', 'max:2000000']
+            'photo.*' => ['mimes:jpg,jpeg,bmp,png'],
+            'photo' => ['required', 'max:1']
         ];
     }
 }

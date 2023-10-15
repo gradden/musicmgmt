@@ -8,21 +8,34 @@
             } else {
                 document.documentElement.classList.remove('dark')
             }
+
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('container', () => ({
+                    show: false
+                }))
+            })
         </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/datepicker.min.js"></script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <title>{{ $title ?? 'MusicMGMT App' }}</title>
+        <title>{{ env('APP_NAME') . ' :: ' . __('web.' . Route::currentRouteName())  }}</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Gabarito&display=swap');
+
+            [x-cloak] {
+                display: none !important;
+            }
         </style>
     </head>
-    <body style="font-family: 'Gabarito', sans-serif;" class="dark:bg-gray-900 bg-gray-50 dark:text-white">
+    <body style="font-family: 'Gabarito', sans-serif;" class="dark:bg-gray-900 bg-gray-50 dark:text-white" x-data="container">
         @if( !auth()->check() )
-            <div class="h-screen w-full flex justify-center items-center ">
-                {{ $slot }}
-            </div>
+            <main x-show="show" x-transition:enter.duration.300ms x-init="$nextTick(() => show = true)" x-cloak>
+                <div class="h-screen w-full flex justify-center items-center" >
+                    {{ $slot }}
+                </div>
+            </main>
         @else
             @livewire('sidebar')
             <!--
@@ -30,9 +43,13 @@
                 @livewire('topbar')
             </div>
             -->
-            <div class="p-2 sm:ml-64 overflow-y-scroll">
-                <main>
+            <div class="relative p-2 sm:ml-64 overflow-y-scroll">
+                <main x-show="show" x-transition:enter.duration.300ms x-init="$nextTick(() => show = true)" x-cloak>
                     {{ $slot }}
+                    @if(session()->has('alert_message'))
+                        @include('.components.alert')
+                    @endif
+
                     @livewire('wire-elements-modal')
                 </main>
             </div>

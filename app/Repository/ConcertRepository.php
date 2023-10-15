@@ -4,12 +4,18 @@ namespace App\Repository;
 
 use App\Models\Concert;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ConcertRepository
 {
     public function getAll() 
     {
         return $this->loadAuthBuilder()->orderBy('event_start_date', 'DESC')->get();
+    }
+
+    public function paginate(int $perPage = 10)
+    {
+        return $this->loadAuthBuilder()->orderBy('event_start_date', 'DESC')->paginate($perPage);
     }
 
     public function create(array $data)
@@ -96,17 +102,37 @@ class ConcertRepository
         return Concert::where('event_end_date', '<', $date);
     }
 
-    public function search(string $input)
+    public function search(string $input, bool $enablePagination = false, int $perPage = 10)
     {
-        return $this->loadAuthBuilder()
+        $builder = $this->loadAuthBuilder()
             ->where(function ($query) use ($input) {
                 $query->where('event_name', 'LIKE', '%' . $input . '%')
                     ->orWhere('description', 'LIKE', '%' . $input . '%');
-            })->get();
+            });
+
+        return $enablePagination ? $builder->paginate($perPage) : $builder->get();
     }
 
     private function loadAuthBuilder(): Builder
     {
-        return Concert::where('added_by_user_id', '=', auth()->id());
+        return Concert::query()->where('added_by_user_id', '=', auth()->id())
+            ->orderByDesc('event_start_date');
+    }
+
+    public function getForLivewire(string $search, int $perPage, string|null $from, string|null $to): LengthAwarePaginator
+    {
+        $builder = $this->loadAuthBuilder()
+            ->where(function ($query) use ($search) {
+                $query->where('event_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('description', 'LIKE', '%' . $search . '%');
+            });
+
+        return (empty($from) && empty($to)) ?
+            $builder->paginate($perPage) :
+            $builder
+                ->where('event_start_date', '>=', $from)
+                ->where('event_end_date', '<=', $to)
+                ->paginate($perPage);
+
     }
 }

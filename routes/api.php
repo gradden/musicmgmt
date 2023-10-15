@@ -16,9 +16,10 @@ Route::get('image/{classType}/{uuid}', [FileController::class, 'get'])
     ->middleware('auth')
     ->name('api.image');
 
-Route::middleware(['api', 'auth:api'])->group(function () {
+Route::middleware(['api', 'auth'])->group(function () {
     Route::get('users/me', [UserController::class, 'getMe']);
     Route::get('global-search', [GlobalSearchController::class, 'search']);
+    Route::post('users/{id}/photos', [FileController::class, 'uploadUserCoverImage'])->name('user.photoupload');
 
     Route::group(['prefix' => 'clubs'], function() {
         Route::get('search', [ClubController::class, 'searchByName'])->name('clubs.search');

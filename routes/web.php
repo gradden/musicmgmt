@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Livewire\Clubs;
 use App\Livewire\Concerts;
 use App\Livewire\Dashboard;
@@ -20,11 +22,18 @@ use function Termwind\style;
 |
 */
 
-Route::middleware(\App\Http\Middleware\RedirectIfAuthenticated::class)->group(function() {
+Route::middleware(RedirectIfAuthenticated::class)->group(function() {
     Route::get('login', Login::class)->name('login');
 });
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
+    ->middleware(['auth', 'signed'])
+    ->name('verification.verify');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::post('/email/verification-notification', [AuthController::class, 'resendEmail'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.send');
+
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('', Dashboard::class)->name('home');
     Route::get('profile', Profile::class)->name('profile');
     Route::get('concerts', Concerts::class)->name('concerts');

@@ -50,14 +50,16 @@
 
                 </dl>
             </td>
-            <td>
-                @foreach($concert->getMedia() as $media)
-
-                    <img alt="kep" src="{{ url('/api/image/concerts/' . $media->uuid) }}">
-                @endforeach
-                <!--
-                url('/api/image/concerts/' . $this->resource->uuid)
-                -->
+            <td style="width: 50%; vertical-align: top;">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div>
+                        @foreach($concert->getMedia() as $media)
+                            <a href="{{ url('/api/image/concerts/' . $media->uuid) }}" target="_blank">
+                                <img src="{{ url('/api/image/concerts/' . $media->uuid) }}" alt="" />
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
             </td>
         </tr>
         </tbody>

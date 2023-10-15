@@ -2,17 +2,29 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail, HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use HasRoles;
+    use InteractsWithMedia;
+
+    public const SYSADMIN_ROLE = 'sys_admin';
+    public const USER_ROLE = 'user';
+    public const USER_COVER_IMAGE = 'cover_img';
+    public const USER_PROFILE_PIC = 'profile_pic';
 
     /**
      * The attributes that are mass assignable.
@@ -77,5 +89,20 @@ class User extends Authenticatable implements JWTSubject
     public function concertCount(): int
     {
         return $this->concerts()->where('is_expired', '=', false)->count();
+    }
+
+    public function getFirstNameAttribute(): string
+    {
+        return explode(' ', $this->name)[0];
+    }
+
+    public function getLastNameAttribute(): string
+    {
+        return explode(' ', $this->name)[1];
+    }
+
+    public function getIsVerifiedAttribute(): bool
+    {
+        return !empty($this->email_verified_at);
     }
 }

@@ -11,6 +11,11 @@
     <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
+                <div class="mb-8 mt-5 text-center">
+                    <h1 class="text-3xl text-black dark:text-white  ">MusicMGMT</h1>
+                </div>
+            </ul>
+            <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                 @foreach(config('menus.main_menus') as $menu)
                     <li>
                         <a @if($currentPage != $menu) wire:click.prevent="{{ $menu }}" @endif href="javascript:void(0)" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white {{ ($currentPage == $menu) ? 'bg-gray-300 dark:bg-gray-900' : 'hover:bg-gray-100 dark:hover:bg-gray-700' }} group">

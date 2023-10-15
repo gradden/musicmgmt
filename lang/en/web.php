@@ -6,9 +6,15 @@ return [
     'profile' => 'Profile',
     'concerts' => 'Concerts',
     'clubs' => 'Clubs',
+    'login' => 'Login',
     'action_buttons' => 'Action',
     'search' => 'Search...',
-    'show_details' => 'Show details',
+    'edit_details' => 'Edit',
+    'email_verify_ok' => 'Your email address has been verified!',
+    'resend_email_ok' => 'Email verification link has benn sent!',
+
+    'previous' => 'Previous',
+    'next' => 'Next',
 
     'concert_table_column_titles' => [
         'event_name' => 'Event',
@@ -17,7 +23,7 @@ return [
         'set_time' => 'Set time',
         'links' => 'Links',
         'status' => 'Status',
-        'show' => 'Show'
+        'show' => 'Action'
     ],
 
     'concert_modal_titles' => [
@@ -30,5 +36,18 @@ return [
         'income' => 'Income',
         'social_links' => 'Social links',
         'logged' => 'Event created in system'
+    ],
+
+    'profile_page' => [
+        'first_name' => 'First Name',
+        'last_name' => 'Last Name',
+        'roles' => 'Roles',
+        'password' => 'Password',
+        'password_confirm' => 'Confirm password',
+        'verified_email' => 'This email address has been verified!',
+        'not_verified_email' => 'You must to verify your email address!',
+        'update' => 'Update',
+        'update_successful' => 'Your profile has been updated successfully!',
+        'update_fail' => 'An error has occurred during your profile update. Please try again, later!'
     ]
 ];

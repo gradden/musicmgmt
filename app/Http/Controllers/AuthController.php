@@ -8,6 +8,8 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\AuthResource;
 use App\Services\AuthService;
 use App\Services\CookieService;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -91,5 +93,19 @@ class AuthController extends Controller
         auth()->logout(true);
 
         return $this->ok();
+    }
+
+    public function verifyEmail(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+
+        return $request->wantsJson() ? $this->ok() : back()->with('verifyEmailMessage', __('web.email_verify_ok'));
+    }
+
+    public function resendEmail(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
+
+        return $request->wantsJson() ? $this->ok() : back()->with('verifyEmailMessage', __('web.resend_email_ok'));
     }
 }

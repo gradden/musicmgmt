@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Exceptions\AuthorizationException;
+use App\Exceptions\EmailVerificationException;
 use App\Services\AuthService;
-use App\Services\CookieService;
-use Exception;
 use Livewire\Component;
 
 class Login extends Component
@@ -18,14 +18,11 @@ class Login extends Component
     public string $title = 'Login';
 
     private AuthService $authService;
-    private CookieService $cookieService;
 
     public function boot(
-        AuthService $authService,
-        CookieService $cookieService
+        AuthService $authService
     ): void {
         $this->authService = $authService;
-        $this->cookieService = $cookieService;
     }
 
     public function render()
@@ -44,8 +41,10 @@ class Login extends Component
             ]);
 
             return redirect('/');
-        } catch (Exception $e) {
+        } catch (AuthorizationException $e) {
             return $this->addError('loginFailed', __('errors.wrong_credentials'));
+        } catch (EmailVerificationException $e) {
+            return $this->addError('loginFailed', __('errors.email_verification'));
         }
     }
 
