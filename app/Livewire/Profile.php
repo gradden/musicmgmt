@@ -57,6 +57,7 @@ class Profile extends Component
 
             if ($user->locale !== $this->language) {
                 $user->locale = $this->language;
+                app()->setLocale($this->language);
             }
 
             $user->save();
