@@ -16,6 +16,10 @@ Route::get('image/{classType}/{uuid}', [FileController::class, 'get'])
     ->middleware('auth')
     ->name('api.image');
 
+Route::get('image/profile-picture', [UserController::class, 'getProfilePicture'])
+    ->middleware('auth')
+    ->name('api.image');
+
 Route::middleware(['api', 'auth'])->group(function () {
     Route::get('users/me', [UserController::class, 'getMe']);
     Route::get('global-search', [GlobalSearchController::class, 'search']);

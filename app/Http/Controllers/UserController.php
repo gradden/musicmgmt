@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
+    private UserService $userService;
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * @OA\Get(
      *   tags={"User"},
@@ -23,5 +30,10 @@ class UserController extends Controller
     public function getMe()
     {
         return $this->json(UserResource::make(auth()->user()));
+    }
+
+    public function getProfilePicture()
+    {
+        return $this->userService->getProfilePicture();
     }
 }

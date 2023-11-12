@@ -3,8 +3,9 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use LivewireUI\Modal\ModalComponent;
 
-class EditConcert extends Component
+class EditConcert extends ModalComponent
 {
     public function render()
     {

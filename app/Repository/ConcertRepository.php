@@ -105,9 +105,11 @@ class ConcertRepository
     public function search(string $input, bool $enablePagination = false, int $perPage = 10)
     {
         $builder = $this->loadAuthBuilder()
+            ->leftJoin('clubs', 'clubs.id', '=', 'concerts.club_id')
             ->where(function ($query) use ($input) {
-                $query->where('event_name', 'LIKE', '%' . $input . '%')
-                    ->orWhere('description', 'LIKE', '%' . $input . '%');
+                $query->where('concerts.event_name', 'LIKE', '%' . $input . '%')
+                    ->orWhere('clubs.name', 'LIKE', '%' . $input . '%')
+                    ->orWhere('concerts.description', 'LIKE', '%' . $input . '%');
             });
 
         return $enablePagination ? $builder->paginate($perPage) : $builder->get();
@@ -115,23 +117,35 @@ class ConcertRepository
 
     private function loadAuthBuilder(): Builder
     {
-        return Concert::query()->where('added_by_user_id', '=', auth()->id())
-            ->orderByDesc('event_start_date');
+        return Concert::query()
+            ->where('concerts.added_by_user_id', '=', auth()->id())
+            ->orderByDesc('concerts.event_start_date');
     }
 
     public function getForLivewire(string $search, int $perPage, string|null $from, string|null $to): LengthAwarePaginator
     {
         $builder = $this->loadAuthBuilder()
+            ->select(
+                'clubs.description as clubDescription',
+                'concerts.description as concertDescription',
+                'clubs.id as clubId',
+                'concerts.id as concertId',
+                'concerts.*',
+                'clubs.*'
+            )
+            ->leftJoin('clubs', 'clubs.id', '=', 'concerts.club_id')
             ->where(function ($query) use ($search) {
-                $query->where('event_name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('description', 'LIKE', '%' . $search . '%');
+                $query->where('concerts.event_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('concerts.description', 'LIKE', '%' . $search . '%')
+                    ->orWhere('clubs.name', 'LIKE', '%' . $search . '%');
             });
 
-        return (empty($from) && empty($to)) ?
+        return (empty($from) || empty($to)) ?
             $builder->paginate($perPage) :
             $builder
-                ->where('event_start_date', '>=', $from)
-                ->where('event_end_date', '<=', $to)
+                ->where('concerts.event_start_date', '>=', $from)
+                ->where('concerts.event_end_date', '<=', $to)
+                ->orderBy('concerts.event_start_date')
                 ->paginate($perPage);
 
     }

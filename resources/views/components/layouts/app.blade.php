@@ -18,6 +18,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/datepicker.min.js"></script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf_token" value="{{ csrf_token() }}"/>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <title>{{ env('APP_NAME') . ' :: ' . __('web.' . Route::currentRouteName())  }}</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -26,6 +27,13 @@
 
             [x-cloak] {
                 display: none !important;
+            }
+
+            .rounded-div-profile {
+                 background-image: url({{ url('/api/image/profile-picture') }});
+                 background-position:50%;
+                 background-repeat:no-repeat;
+                 background-size: cover;
             }
         </style>
     </head>

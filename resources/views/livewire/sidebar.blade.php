@@ -29,7 +29,21 @@
                 @foreach(config('menus.action_menus') as $menu)
                     <li>
                         <a @if($currentPage != $menu) wire:click.prevent="{{ $menu }}" @endif href="javascript:void(0)" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white {{ ($currentPage == $menu) ? 'bg-gray-300 dark:bg-gray-900' : 'hover:bg-gray-100 dark:hover:bg-gray-700' }} group">
-                            <i class="fa {{ config('menus.fa_icons.' . $menu) }} fa-6 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true"></i>
+                            @if($menu == 'profile')
+                                @php
+                                    $uuid = null;
+                                    foreach (auth()->user()->getMedia() as $media) {
+                                        if ($media->hasCustomProperty('profilePicture')) {
+                                            if ($media->getCustomProperty('profilePicture')) {
+                                                $uuid = $media->uuid;
+                                            }
+                                        }
+                                    }
+                                @endphp
+                                <div class="w-6 h-6 rounded-full cursor-pointer overflow-hidden border rounded-div-profile"></div>
+                            @else
+                                <i class="fa {{ config('menus.fa_icons.' . $menu) }} fa-6 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true"></i>
+                            @endif
                             <span class="ml-3"> {{ __('web.' . $menu) }} </span>
                         </a>
                     </li>

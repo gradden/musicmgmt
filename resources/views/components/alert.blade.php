@@ -14,7 +14,7 @@
         </div>
         @break
     @case(\App\Enums\StatusEnum::FAIL)
-        <div id="alert-2" class="fixed p-4 sm:ml-72 sm:mr-5 z-50 items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+        <div id="alert-2" class="fixed p-4 sm:ml-72 sm:mr-5 z-50 inset-x-0 bottom-0 h-16 flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
             <i class="fa fa-times-circle" aria-hidden="true"></i>
             <div class="ml-3 text-sm font-medium">
                 {{ session()->get('alert_message') }}
@@ -28,7 +28,7 @@
         </div>
         @break
     @case(\App\Enums\StatusEnum::DANGER)
-        <div id="alert-4" class="fixed p-4 sm:ml-72 sm:mr-5 z-50 items-center p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+        <div id="alert-4" class="fixed p-4 sm:ml-72 sm:mr-5 z-50 inset-x-0 bottom-0 h-16 flex items-center p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             <div class="ml-3 text-sm font-medium">
                 {{ session()->get('alert_message') }}

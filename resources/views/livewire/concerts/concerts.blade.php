@@ -2,7 +2,7 @@
     <div>
 
     </div>
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-1">
         <div class="flex items-center justify-between pb-4 dark:bg-gray-900">
             <label for="table-search" class="sr-only">{{ __('web.search') }}</label>
             <div class="relative">
@@ -22,7 +22,7 @@
                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                             </svg>
                         </div>
-                        <input wire:model="from" name="fromDate" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
+                        <input wire:model.live="from" name="from" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
                     </div>
                     <span class="mx-4 text-gray-500">to</span>
                     <div class="relative">
@@ -31,7 +31,7 @@
                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                             </svg>
                         </div>
-                        <input wire:model="to" name="toDate" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
+                        <input wire:model.live="to" name="to" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
                     </div>
                 </div>
             </div>
@@ -63,11 +63,10 @@
                                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                             </div>
                         </td>
-
-                        <th onclick="Livewire.dispatch('openModal', { component: 'show-concert', arguments: { id: {{ $concert->id }} }})" href="javascript:void(0)" scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white cursor-pointer hover:bg-gray-200 hover:rounded-2xl dark:hover:bg-gray-950">
+                        <th onclick="Livewire.dispatch('openModal', { component: 'show-concert', arguments: { id: {{ $concert->concertId }} }})" href="javascript:void(0)" scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white cursor-pointer hover:bg-gray-200 hover:rounded-2xl dark:hover:bg-gray-950">
                             <div class="pl-3">
                                 <div class="text-base w-80 truncate font-semibold"> {{ $concert->event_name }} </div>
-                                <div class="font-normal w-80 text-gray-500 truncate"> {{ $concert->description }} </div>
+                                <div class="font-normal w-80 text-gray-500 truncate"> {{ $concert->concertDescription }} </div>
                             </div>
                         </th>
 

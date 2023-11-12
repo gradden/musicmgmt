@@ -3,19 +3,31 @@
 namespace App\Livewire;
 
 use App\Enums\StatusEnum;
+use App\Services\FileService;
+use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Profile extends Component
 {
+    use WithFileUploads;
+
     public $firstname;
     public $lastname;
     public $email;
     public $password;
     public $passwordConfirm;
+    public $profilepicture;
+
+    private FileService $fileService;
+
+    public function boot(FileService $fileService) {
+        $this->fileService = $fileService;
+    }
 
     public function mount()
     {
@@ -59,7 +71,7 @@ class Profile extends Component
             session()->flash('status', StatusEnum::OK);
 
             DB::commit();
-        } catch (Exception) {
+        } catch (Exception $e) {
             DB::rollBack();
 
             session()->flash('alert_message', __('web.profile_page.update_fail'));
@@ -67,5 +79,35 @@ class Profile extends Component
         }
 
         return redirect('profile');
+    }
+
+    public function updatedProfilepicture()
+    {
+        $this->uploadPhoto('profile_picture', $this->profilepicture);
+    }
+
+    public function uploadPhoto(string $type, $photo): void
+    {
+            $this->validate([
+                'profilepicture' => 'image|mimes:jpg,jpeg,bmp,png',
+            ]);
+
+            $this->fileService->deletePreviousIfExists(Str::camel($type));
+
+            $user = auth()->user();
+
+            $filename = $type . '_' .
+                $user->id . '_' .
+                Carbon::now()->format('Ymdhis') . '_' .
+                Str::random(8);
+
+            $filename .= '.' . explode('.', $photo->getFilename())[1];
+
+            $user
+                ->addMedia($photo->getRealpath())
+                ->usingFileName($filename)
+                ->withCustomProperties([Str::camel($type) => true])
+                ->toMediaCollection();
+
     }
 }

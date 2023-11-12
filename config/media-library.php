@@ -1,7 +1,9 @@
 <?php
 
 use App\Generator\ConcertPathGenerator;
+use App\Generator\UserPathGenerator;
 use App\Models\Concert;
+use App\Models\User;
 
 return [
 
@@ -72,7 +74,8 @@ return [
      * Here you can specify which path generator should be used for the given class.
      */
     'custom_path_generators' => [
-        Concert::class => ConcertPathGenerator::class
+        Concert::class => ConcertPathGenerator::class,
+        User::class => UserPathGenerator::class
         // or
         // 'model_morph_alias' => PathGenerator::class
     ],

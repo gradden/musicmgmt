@@ -3,7 +3,7 @@
 return [
     'home' => 'Home',
     'logout' => 'Log out',
-    'profile' => 'Profile',
+    'profile' => auth()->user()->last_name ?? 'Profile',
     'concerts' => 'Concerts',
     'clubs' => 'Clubs',
     'login' => 'Login',
@@ -48,6 +48,7 @@ return [
         'not_verified_email' => 'You must to verify your email address!',
         'update' => 'Update',
         'update_successful' => 'Your profile has been updated successfully!',
-        'update_fail' => 'An error has occurred during your profile update. Please try again, later!'
+        'update_fail' => 'An error has occurred during your profile update. Please try again, later!',
+        'password_does_not_match' => 'The password does not match. Please try again!'
     ]
 ];
