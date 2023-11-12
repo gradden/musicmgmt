@@ -52,13 +52,13 @@
                                     <div class="w-full">
                                         <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">E-mail</label>
                                         <div class="relative text-gray-600 focus-within:text-gray-400">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-2" data-tooltip-target="email-is-verified">
-                                @if($user->isVerified)
-                                    <i class="fa fa-check-circle" style="color: green" aria-hidden="true"></i>
-                                @else
-                                    <i class="fa fa-exclamation-triangle" style="color: darkorange" aria-hidden="true"></i>
-                                @endif
-                            </span>
+                                            <span class="absolute inset-y-0 left-0 flex items-center pl-2" data-tooltip-target="email-is-verified">
+                                                @if($user->isVerified)
+                                                    <i class="fa fa-check-circle" style="color: green" aria-hidden="true"></i>
+                                                @else
+                                                    <i class="fa fa-exclamation-triangle" style="color: darkorange" aria-hidden="true"></i>
+                                                @endif
+                                            </span>
                                             <input type="email"
                                                    name="email"
                                                    id="email"
@@ -88,6 +88,19 @@
                                             @endforeach
                                         </ul>
                                     </div>
+                                    <div class="w-full">
+                                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('web.profile_page.select_language') }}</label>
+                                        <select wire:model="language" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            @foreach (array_flip(config('app.languages')) as $language)
+                                                <option @if(auth()->user()->locale === $language) selected @endif value="{{ $language }}"> {{ config('app.languages.' . $language) }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+                                <br>
+                                <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                                     <div class="w-full">
                                         <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('web.profile_page.password') }}</label>
                                         <input type="password"
