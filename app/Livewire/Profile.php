@@ -22,6 +22,7 @@ class Profile extends Component
     public $password;
     public $passwordConfirm;
     public $profilepicture;
+    public $language;
 
     private FileService $fileService;
 
@@ -35,6 +36,7 @@ class Profile extends Component
         $this->firstname = $user->firstName;
         $this->lastname = $user->lastName;
         $this->email = $user->email;
+        $this->language = $user->locale;
     }
 
     public function render()
@@ -63,6 +65,11 @@ class Profile extends Component
                 if ($this->password === $this->passwordConfirm) {
                     $user->password = Hash::make($this->password);
                 }
+            }
+
+            if ($user->locale !== $this->language) {
+                $user->locale = $this->language;
+                app()->setLocale($this->language);
             }
 
             $user->save();

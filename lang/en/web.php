@@ -23,7 +23,7 @@ return [
         'set_time' => 'Set time',
         'links' => 'Links',
         'status' => 'Status',
-        'show' => 'Action'
+        'show' => 'Action',
     ],
 
     'concert_modal_titles' => [
@@ -35,7 +35,7 @@ return [
         'event_end_date' => 'End date of event',
         'income' => 'Income',
         'social_links' => 'Social links',
-        'logged' => 'Event created in system'
+        'logged' => 'Event created in system',
     ],
 
     'profile_page' => [
@@ -49,6 +49,7 @@ return [
         'update' => 'Update',
         'update_successful' => 'Your profile has been updated successfully!',
         'update_fail' => 'An error has occurred during your profile update. Please try again, later!',
-        'password_does_not_match' => 'The password does not match. Please try again!'
+        'select_language' => 'Set language',
+        'password_does_not_match' => 'The password does not match. Please try again!',
     ]
 ];

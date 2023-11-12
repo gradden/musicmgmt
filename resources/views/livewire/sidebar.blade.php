@@ -19,7 +19,7 @@
                 @foreach(config('menus.main_menus') as $menu)
                     <li>
                         <a @if($currentPage != $menu) wire:click.prevent="{{ $menu }}" @endif href="javascript:void(0)" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white {{ ($currentPage == $menu) ? 'bg-gray-300 dark:bg-gray-900' : 'hover:bg-gray-100 dark:hover:bg-gray-700' }} group">
-                            <i class="fa {{ config('menus.fa_icons.' . $menu) }} fa-6 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true"></i>
+                            <i class="fa {{ config('menus.fa_icons.' . $menu) }} fa-6 w-5 h-5 text-gray-500 transition duration-75 {{ ($currentPage == $menu) ? 'text-black dark:text-white' : 'group-hover:text-gray-900 dark:group-hover:text-white' }} dark:text-gray-400" aria-hidden="true"></i>
                             <span class="ml-3"> {{ __('web.' . $menu) }} </span>
                         </a>
                     </li>

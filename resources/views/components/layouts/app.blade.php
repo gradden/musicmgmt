@@ -51,7 +51,7 @@
                 @livewire('topbar')
             </div>
             -->
-            <div class="relative p-2 sm:ml-64 overflow-y-scroll">
+            <div class="relative p-2 sm:ml-64">
                 <main x-show="show" x-transition:enter.duration.300ms x-init="$nextTick(() => show = true)" x-cloak>
                     {{ $slot }}
                     @if(session()->has('alert_message'))

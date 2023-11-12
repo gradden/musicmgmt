@@ -35,6 +35,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, HasMe
         'name',
         'email',
         'password',
+        'locale'
     ];
 
     /**
@@ -79,6 +80,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, HasMe
     public function concerts(): HasMany
     {
         return $this->hasMany(Concert::class, 'added_by_user_id', 'id');
+    }
+
+    public function settings(): HasMany
+    {
+        return $this->hasMany(UserPreference::class, 'user_id', 'id');
     }
 
     public function concertExpiredCount(): int

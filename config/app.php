@@ -212,6 +212,11 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
-    'default_user_email_for_import' => env('DEFAULT_USER_EMAIL_FOR_IMPORT')
+    'default_user_email_for_import' => env('DEFAULT_USER_EMAIL_FOR_IMPORT'),
+
+    'languages' => [
+        'en' => 'English',
+        'hu' => 'Magyar'
+    ]
 
 ];
