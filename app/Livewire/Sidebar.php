@@ -41,6 +41,7 @@ class Sidebar extends Component
 
     public function logout()
     {
+        session()->invalidate();
         auth()->logout();
 
         return redirect('');
